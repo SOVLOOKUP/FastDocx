@@ -1,25 +1,27 @@
 # FastDocx
 
-根据json自动解析模板生成word文档
+根据字典自动解析模板生成word文档
 
 ## 特点
  -  工作空间支持
- -  根据json解析，书写方便
+ -  根据字典解析，书写方便
+ -  支持json配置
  -  能够插入图片、表格、空行
+ -  动态解析，能传入函数作为内容
 
 ## 设计
 
 ### 工作空间目录
     workspace -- {id} -- tmp -- template.docx     # word模板
                       |      |
-                      |      |- index.json        # json信息
+                      |      |- index.json        # json配置信息
                       |      |
                       |      |- img -- 1.img      # 供插入的图片文件
                       |             |
                       |             |- 2.img      
                       |- out                      # 输出文件夹
 
-### index.json示例
+### 配置字典示例
 
 ```py
 {
