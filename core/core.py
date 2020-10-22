@@ -81,8 +81,7 @@ class WordCore(object):
 
         # 加载模板
         self.template = readox(self.readpath+"template.docx")
-
-        
+    
 
     def process(self):
         logging.info("#"*16+f"{self.id}任务开始"+"#"*16)
