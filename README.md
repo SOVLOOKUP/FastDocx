@@ -2,6 +2,10 @@
 
 根据字典自动解析模板生成word文档
 
+## 示例
+
+运行`main.py`试试看，`example/out`会自动生成word
+
 ## 特点
  -  工作空间支持
  -  根据字典解析，书写方便
@@ -37,10 +41,16 @@
       "name":"1.docx",
       # 具体锚点替换内容
       "content":[{
-          "key" : "这里插入表1",
-          "type" : "text",
-          "value" : "我是替换文字！！！"
-          },
+            "key" : "A",
+            "type" : "text",
+            # 支持填入返回str的函数
+            "value" : "我是替换上去的标题"
+            },{
+            "key" : "B",
+            "type" : "img",
+            # [path/stream/url,width,height]
+            "value" : ["2.png"]
+            },
           # 其他关键字锚点
           ]
       },
@@ -56,6 +66,7 @@
 ## TODO
 
 1. [ ] PyQT GUI集成
-2. [ ] download 模块
-3. [ ] 更好的图片支持（图例等）
-4. [ ] 表格支持
+2. [x] download 模块
+3. [ ] 遇到url自动下载图片并插入
+4. [ ] 更好的图片支持（图例等）
+5. [ ] 表格支持

@@ -1,6 +1,6 @@
 from core.core import WordCore
 
-basepath = r"D:/Desktop/自动word/workspace/"
+basepath = r"./example"
 
 index = {
     # 12位id，模板解析任务的唯一标识
@@ -15,9 +15,13 @@ index = {
         "name":"1.docx",
         # 具体锚点替换内容
         "content":[{
-            "key" : "这里插入表1",
+            "key" : "A",
             "type" : "text",
-            "value" : "我是替换文字！！！"
+            "value" : "我是替换上去的标题"
+            },{
+            "key" : "B",
+            "type" : "img",
+            "value" : ["2.png"]
             },
             # 其他关键字锚点
             ]

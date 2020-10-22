@@ -1,7 +1,7 @@
 import re
 import logging
 
-def process(doc,somethinglist:list):
+def process(doc,somethinglist:list,imgpath :str):
     """
     doc Document文件对象   
     something list
@@ -50,18 +50,22 @@ def process(doc,somethinglist:list):
                 # 在末尾添加图片
                 # params:
                 # [img_path,width,height]
+                # todo 碰到http开头的自动下载并插入
                 if PICTURE:
-                    paragraph.runs[-1].add_picture(*ivalue)
+                    if type(ivalue[0]) == str:
+                        ivalue[0] = imgpath + ivalue[0]
+                    paragraph.add_run().add_picture(*ivalue)
+                    # paragraph.runs[-1].add_picture(path)
                 
                 # 在末尾添加表格
                 # params:
                 # [rows,cols]
                 if TAB:
-                    paragraph.runs[-1].add_tab(*ivalue)
+                    paragraph.add_run().add_tab(*ivalue)
 
                 # 添加换行
                 if BREAK:
-                    paragraph.runs[-1].add_break()
+                    paragraph.add_run().add_break()
     return doc
 
 

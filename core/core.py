@@ -60,12 +60,11 @@ class WordCore(object):
         self.outpath = self.basepath+self.id+"/out/"
 
         # 检查项目资源;项目目录，没有就创建
-        if os.path.exists(self.readpath) == False:
+        if os.path.exists(self.readpath+"img/") == False:
             os.makedirs(self.readpath)
         if os.path.exists(self.outpath) == False:
             os.makedirs(self.outpath)
 
-        # todo 校验并下载，重构self.word
         if os.path.exists(self.readpath+"template.docx") == False:
             logging.error("没有找到工作资源！")
         # 输出自述信息
@@ -92,7 +91,7 @@ class WordCore(object):
 
             logging.info("gen "+name)
             # 使用模板和内容组成新文档
-            newdoc = process(self.template,content)
+            newdoc = process(self.template,content,self.readpath+"img/")
 
             # 保存新文档
             writedox(newdoc,self.outpath + name)
