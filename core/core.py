@@ -55,20 +55,19 @@ class WordCore(object):
         self.version = index["version"]
         self.description = index["description"]
         # self.readpath = os.path.join(self.basepath,"/tmp",self.id+"/template.docx")
-        self.readpath = self.basepath+self.id+"/tmp/template.docx"
+        self.readpath = self.basepath+self.id+"/tmp/"
         # self.outpath = os.path.join(self.basepath,"/out",self.id)
         self.outpath = self.basepath+self.id+"/out/"
 
         # 检查项目资源;项目目录，没有就创建
-        if os.path.exists(self.basepath+self.id+"/tmp/") == False:
-            logging.error("没有找到工作资源！")
+        if os.path.exists(self.readpath) == False:
+            os.makedirs(self.readpath)
         if os.path.exists(self.outpath) == False:
             os.makedirs(self.outpath)
 
-        self.word = index["word"]
-
-        # 加载模板
-        self.template = readox(self.readpath)
+        # todo 校验并下载，重构self.word
+        if os.path.exists(self.readpath+"template.docx") == False:
+            logging.error("没有找到工作资源！")
         # 输出自述信息
         logging.info(f"""
         任务ID\t\t|\t{self.id}
@@ -77,6 +76,12 @@ class WordCore(object):
         版本\t\t|\t{self.version}
         任务描述\t|\t{self.description}
         """)
+
+        self.word = index["word"]
+
+        # 加载模板
+        self.template = readox(self.readpath+"template.docx")
+
         
 
     def process(self):

@@ -17,7 +17,7 @@ class fastdocx(QWidget):
         super(fastdocx, self).__init__(parent)
         self.ui = QUiLoader().load('form.ui')
         self.ui.setWindowIcon(QtGui.QIcon('icon.ico'))
-        self.ui.setWindowTitle('FastDocx')
+        self.ui.setWindowTitle('分布式报表协作系统')
 
 if __name__ == "__main__":
     app = QApplication([])

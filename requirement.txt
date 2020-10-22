@@ -1,3 +1,5 @@
 docx
 logging
 re
+trio
+httpx[http2]
