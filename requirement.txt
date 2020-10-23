@@ -3,3 +3,4 @@ logging
 re
 trio
 httpx[http2]
+tqdm

@@ -52,8 +52,6 @@ def process(doc,somethinglist:list,imgpath :str):
                 # [img_path,width,height]
                 # todo 碰到http开头的自动下载并插入
                 if PICTURE:
-                    if type(ivalue[0]) == str:
-                        ivalue[0] = imgpath + ivalue[0]
                     paragraph.add_run().add_picture(*ivalue)
                     # paragraph.runs[-1].add_picture(path)
                 

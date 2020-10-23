@@ -1,8 +1,8 @@
-import logging
+import logging, httpx, os, json, string, random
 from .reader import readox
 from .engine import process
 from .writer import writedox
-import os
+from .download import download
 
 class WordCore(object):
     """
@@ -10,7 +10,7 @@ class WordCore(object):
 
     basepath -- tmp -- {id} -- template.docx
              |              |
-             |              |- index.json
+             |              |- config.json
              |              |
              |              |- img -- 1.img
              |                     |
@@ -18,55 +18,125 @@ class WordCore(object):
              |- out
 
     BasePath = "D:\Desktop\自动word\workspace"
-    index = {
-        # 12位id，模板解析任务的唯一标识
+    config = {
         "id":"111111111111",
         "taskname":"测试任务",
         "author":"GoNorth",
         "version":"V0.0.1",
         "description":"这是一个测试任务，一帆风顺🤩",
-        # 模板解析的内容
+        "template":"https://v.gonorth.top:444/file/111111111111/template.docx",
         "word":[{
-            # 输出word名称
-            "name":"1.docx",
-            # 具体锚点替换内容
+            "name":"out.docx",
             "content":[{
-                "key" : "这里插入表1",
+                "key" : "A",
                 "type" : "text",
-                "value" : "我是替换文字！！！"
-                },
-                # 其他关键字锚点
+                "value" : "我是替换上去的标题"
+                },{
+                "key" : "B",
+                "type" : "img",
+                "value" : ["https://v.gonorth.top:444/file/111111111111/img/2.png"]
+                }
                 ]
-            },
-            # 其他生成的word
+            }
         ]}
     """
-    def __init__(self,basepath : str,index : dict):
-        # if index == "":
-        #     with open(os.path.join(basepath,"index.json")) as f:
-        #         index = json.loads(f.read())
+    def __init__(self,basepath : str):
+        
         if basepath.endswith("/") == False:
             basepath = basepath+"/"
-            
+
         self.basepath = basepath
-        self.id = index["id"]
-        self.taskname = index["taskname"]
-        self.author = index["author"]
-        self.version = index["version"]
-        self.description = index["description"]
-        # self.readpath = os.path.join(self.basepath,"/tmp",self.id+"/template.docx")
+    
+    def verify(self, config : dict or str, thread_num:int):
+        if type(config) == str and config.startswith("http"):
+            # 下载config.json
+            config = json.loads(httpx.get(config).content)
+
+        if (id := config.get("id")) == None:
+            logging.error("资源地址不正确或已失效！")
+            return False
+        
+        if (word := config.get("word")) == None:
+            logging.error("资源无效！")
+            return False
+        
+        self.id = id 
+
         self.readpath = self.basepath+self.id+"/tmp/"
-        # self.outpath = os.path.join(self.basepath,"/out",self.id)
         self.outpath = self.basepath+self.id+"/out/"
 
         # 检查项目资源;项目目录，没有就创建
-        if os.path.exists(self.readpath+"img/") == False:
+        if os.path.exists(self.readpath) == False:
             os.makedirs(self.readpath)
         if os.path.exists(self.outpath) == False:
             os.makedirs(self.outpath)
 
         if os.path.exists(self.readpath+"template.docx") == False:
-            logging.error("没有找到工作资源！")
+            if (tmplate_url := config.get("template",False)) == False:
+                logging.error("没有找到工作资源！")
+                return False
+            if tmplate_url.strip().startswith("http") == False:
+                logging.error("资源地址错误！")
+                return False
+            
+            # 下载到 self.readpath+"template.docx"
+            with httpx.stream("GET", tmplate_url) as response:
+                with open(self.readpath+"template.docx","wb+") as f:
+                    for chunk in response.iter_bytes():
+                        f.write(chunk)
+
+        if os.path.exists(self.readpath + "img/") == False:
+            os.makedirs(self.readpath + "img/")
+
+        logging.info("校验中...")
+        # 下载img
+        msg = [
+        # {
+        #     "content":["GET","https://baidu.com"],
+        #     "todo": print("sssssssssssssssssssssssssss")
+        # },
+        ]
+        for part in word:
+            for section in part.get("content"):
+                value = section.get("value")
+                if type(value) == list:
+                    if (type(value[0]) == str) and (value[0].startswith("http")):
+                        # 下载并保存到readpath/img/ 返回名字
+                        name = ''.join(random.sample(string.ascii_letters + string.digits, 12)) + ".png"
+                        msg.append({
+                            "content":["GET",value[0]],
+                            "path": self.readpath + "img/" + name
+                        })
+
+                        value[0] = self.readpath + "img/"+name
+        
+        logging.info(f"同步资源...共{len(msg)}个项目")
+        download(msg, thread_num)
+        
+        # # 保存config.json
+        # with open(self.readpath+"config.json","w+") as f:
+        #     f.write(json.dumps(config))
+
+        self.word = word
+        self.config = config
+
+    def load(self, config : dict, thread_num:int = 1):
+        """[summary]
+
+        Args:
+            config : config
+            thread_num (int, optional): [下载线程数]. Defaults to 1.
+        """
+
+        if self.verify(config=config,thread_num=thread_num):
+            logging.warning("加载失败！！！")
+            return
+
+        self.taskname = self.config.get("taskname","")
+        self.author = self.config.get("author","")
+        self.version = self.config.get("version","")
+        self.description = self.config.get("description","")
+        
         # 输出自述信息
         logging.info(f"""
         任务ID\t\t|\t{self.id}
@@ -76,11 +146,10 @@ class WordCore(object):
         任务描述\t|\t{self.description}
         """)
 
-        self.word = index["word"]
-
         # 加载模板
         self.template = readox(self.readpath+"template.docx")
-    
+
+        return self
 
     def process(self):
         logging.info("#"*16+f"{self.id}任务开始"+"#"*16)

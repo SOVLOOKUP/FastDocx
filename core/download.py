@@ -1,5 +1,5 @@
-import httpx
-import trio
+import httpx, trio
+from tqdm import tqdm
 
 async def run(reqs ,thread_num :int):
     """[summary]
@@ -19,7 +19,7 @@ async def run(reqs ,thread_num :int):
             # download
             for _ in range(thread_num):
                 nursery.start_soon(downloader, receive_channel_.clone(), send_channel_.clone())
-            nursery.start_soon(rep_chan, receive_channel.clone())
+            nursery.start_soon(rep_chan, receive_channel.clone(),len(reqs))
 
 async def downloader(receive_channel_,send_channel_):
     async with receive_channel_, send_channel_, httpx.AsyncClient(http2=True) as client:
@@ -36,35 +36,45 @@ async def req_chan(send_channel, reqs):
             await send_channel.send(msg)
 
 # todo 将图片等写入本地
-async def rep_chan(receive_channel):
-    async with receive_channel:
-        # The consumer uses an 'async for' loop to receive the msgs:
-        async for msg in receive_channel:
-            try:
-                await msg["todo"]
-            except TypeError:
-                msg["todo"]
-            
-            print(msg["content"])
+async def rep_chan(receive_channel, pbarnum):
+    with tqdm(pbarnum) as pbar:
+        async with receive_channel:
+            # The consumer uses an 'async for' loop to receive the msgs:
+            async for msg in receive_channel:
+                # 保存
+                with open(msg["path"],"wb+") as f:
+                    f.write(msg["content"].content)
 
-def main(reqs :list, thread_num :int = 1):
+                pbar.update(1)
+
+def download(reqs :list, thread_num :int = 1):
     """[summary]
 
     Args:
         reqs (msg): [description]
         {
-        "content":["GET","https://baidu.com"],
-        "todo": function,
+        "content":["GET","https://v.gonorth.top:444/file/111111111111/img/2.png"],
+        "path": "d:/1.png"
         },
         thread_num (int, optional): [description]. Defaults to 1.
     """
     trio.run(run,reqs,thread_num)
 
-mymsg = [
-    {
-        "content":["GET","https://baidu.com"],
-        "todo": print("sssssssssssssssssssssssssss")
-    },
-    ]
+if __name__ == "__main__":
+    mymsg = [
+        {
+            "content":["GET","https://v.gonorth.top:444/file/111111111111/img/2.png"],
+            "path": "d:/test/1.png"
+        },{
+            "content":["GET","https://v.gonorth.top:444/file/111111111111/img/2.png"],
+            "path": "d:/test/2.png"
+        },{
+            "content":["GET","https://v.gonorth.top:444/file/111111111111/img/2.png"],
+            "path": "d:/test/3.png"
+        },{
+            "content":["GET","https://v.gonorth.top:444/file/111111111111/img/2.png"],
+            "path": "d:/test/4.png"
+        },
+        ]
 
-main(mymsg,2)
+    download(mymsg,4)
