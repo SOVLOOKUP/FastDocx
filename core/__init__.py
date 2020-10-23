@@ -9,11 +9,10 @@ print("""
 ##                                          ##
 ##           Welcome to FastDocx!!          ##
 ##                                          ##
-##        Author        xiafan              ##                       
-##        Mail       805408477@qq.com       ##
-##        Github   github.com/sovlookup     ##
+##        Author      sovlookup             ##                       
+##        Mail     805408477@qq.com         ##
+##        Github  sovlookup/FastDocx        ##
 ##                                          ##
-##            © 2020-Now xiafan             ##
 ##############################################
 
 """)
