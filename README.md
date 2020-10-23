@@ -8,7 +8,7 @@ FastDocx是一个自动化模块 帮助你快速依据模板生成word文档
 
 `test.py`
 ```py
-from core.core import WordCore
+from fastdocx import WordCore
 
 basepath = r"./"
 
@@ -79,7 +79,7 @@ basepath = r"./"
 你可以根据下面的dict自定义输入，就像第一个例子里一样，你可以将这个json托管到cdn，由此你就能随处生成你的word文档
 
 ```py
-from core.core import WordCore
+from fastdocx import WordCore
 
 basepath = r"./"
 
@@ -114,7 +114,7 @@ config = {
 高级用法，你可以直接传入函数调用该模块
 
 ```py
-from core.core import WordCore
+from fastdocx import WordCore
 
 basepath = r"./"
 

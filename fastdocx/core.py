@@ -41,7 +41,20 @@ class WordCore(object):
         ]}
     """
     def __init__(self,basepath : str):
-        
+        print("""
+##############################################
+##                                          ##
+##           Welcome to FastDocx!!          ##
+##                                          ##
+##        Author      sovlookup             ##
+##        Mail     805408477@qq.com         ##
+##        Github  sovlookup/FastDocx        ##
+##                                          ##
+##############################################
+        """)
+        logging.basicConfig(level=logging.INFO,
+                    format='%(levelname)s: %(message)s')  
+                    # format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s')  
         if basepath.endswith("/") == False:
             basepath = basepath+"/"
 

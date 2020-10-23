@@ -1,4 +1,4 @@
-from core.core import WordCore
+from fastdocx import WordCore
 
 basepath = r"./"
 
