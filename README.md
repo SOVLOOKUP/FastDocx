@@ -1,6 +1,6 @@
 # FastDocx
 
-根据字典自动解析模板生成word文档
+FastDocx是一个自动化模块 帮助你快速依据模板生成word文档
 
 ## 示例
 
