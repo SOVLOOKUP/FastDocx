@@ -6,14 +6,13 @@ FastDocx是一个自动化模块 帮助你快速依据模板生成word文档
 `pip install fastdocx -i https://pypi.org/simple`
 ## 示例
 
-一行代码开启GUI界面
+一行代码开启GUI界面，点击开始一键生成
 
 ```py
 import fastdocx
-
 fastdocx.ui()
 ```
-
+![](https://s1.ax1x.com/2020/10/24/BZDFVe.png)
 或者运行下面这段代码，目录下会自动生成word
 
 ```py
