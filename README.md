@@ -36,8 +36,6 @@ workspace = r"./"
     "description":"这是一个测试任务，一帆风顺🤩",
     # 模板地址 URL/PATH
     "template":"https://v.gonorth.top:444/file/111111111111/template.docx",
-    # 任务图标地址
-    "icon":"https://v.gonorth.top:444/file/111111111111/img/2.png",
     # 模板解析的内容
     "word":[{
         # 输出word名称
@@ -104,7 +102,6 @@ config = {
         "version":"V0.0.1",
         "description":"这是一个测试任务，一帆风顺🤩",
         "template":"https://v.gonorth.top:444/file/111111111111/template.docx",
-       "icon":"https://v.gonorth.top:444/file/111111111111/img/2.png",
         "word":[{
             "name":"out.docx",
             "content":[{
@@ -140,7 +137,6 @@ config = {
         "version":"V0.0.1",
         "description":"这是一个测试任务，一帆风顺🤩",
         "template":"https://v.gonorth.top:444/file/111111111111/template.docx",
-       "icon":"https://v.gonorth.top:444/file/111111111111/img/2.png",
         "word":[{
             "name":"out.docx",
             "content":[{

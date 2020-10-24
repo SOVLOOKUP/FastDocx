@@ -134,7 +134,7 @@ class WordCore(object):
 
         return self
 
-    def process(self):
+    def process(self) -> bool:
         logging.info("#"*16+f"{self.id}任务开始"+"#"*16)
 
         for word_content in self.word:
@@ -150,3 +150,4 @@ class WordCore(object):
 
 
         logging.info("#"*16+f"{self.id}任务结束"+"#"*16)
+        return True
