@@ -1,18 +1,18 @@
 from PyQt5.QtCore import QUrl
-from PyQt5.QtGui import QDesktopServices, QIcon
+from PyQt5.QtGui import QDesktopServices, QIcon, QIconEngine
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QApplication, QListWidgetItem, QInputDialog, QFileDialog
 from .form import Ui_MainWindow
 import httpx, json, os
 from fastdocx import WordCore
-
-class CommonHelper:
-  def __init__(self):
-    pass
+from .style import stype
+# class CommonHelper:
+#   def __init__(self):
+#     pass
  
-  @staticmethod
-  def readQss(style):
-    with open(style, 'r') as f:
-        return f.read()
+#   @staticmethod
+#   def readQss(style):
+#     with open(style, 'r') as f:
+#         return f.read()
 
 # todo:获取输出、改造为迭代器提高效率
 class item(QListWidgetItem):
@@ -48,7 +48,10 @@ class fastdocx(QMainWindow, Ui_MainWindow):
         self.source_url = source_url
         self.tmpdir = tmpdir
         self.setupUi(self)
-        self.setWindowIcon(QIcon('icon.ico'))
+        try:
+          self.setWindowIcon(QIcon('icon.ico'))
+        except:
+          pass
         self.setWindowTitle('FastDocx')
         self.workdirButton.clicked.connect(self.workdirButtonClicked)
         self.process.clicked.connect(self.startProcess)
@@ -119,8 +122,8 @@ def ui():
   """
   app = QApplication([])
   widget = fastdocx()
-  qssStyle = CommonHelper.readQss('./qss/black.qss')
-  widget.setStyleSheet(qssStyle)
+  # qssStyle = CommonHelper.readQss('./qss/black.qss')
+  widget.setStyleSheet(stype)
   widget.show()
   widget.myinit()
   app.exec_()

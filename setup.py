@@ -5,7 +5,7 @@ with open("README.md", "r+", encoding="utf8") as fh:
 
 setuptools.setup(
     name="fastdocx",
-    version="0.1.1",
+    version="0.1.2",
     author="sovlookup",
     author_email="805408477@qq.com",
     description="use template to gen word everywhere",
