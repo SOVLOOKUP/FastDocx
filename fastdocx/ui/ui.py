@@ -3,7 +3,7 @@ from PyQt5.QtGui import QDesktopServices, QIcon
 from PyQt5.QtWidgets import QMessageBox, QMainWindow, QApplication, QListWidgetItem, QInputDialog, QFileDialog
 from .form import Ui_MainWindow
 import httpx, json, os
-from ...fastdocx import WordCore
+from fastdocx import WordCore
 
 class CommonHelper:
   def __init__(self):
