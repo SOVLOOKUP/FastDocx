@@ -40,8 +40,11 @@ class WordCore(object):
             }
         ]}
     """
-    def __init__(self,basepath : str):
-        print("""
+    def __init__(self, basepath : str, log_level=logging.INFO):
+        logging.basicConfig(level=log_level,
+                    format='%(levelname)s: %(message)s')  
+                    # format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s')  
+        logging.info("""
 ##############################################
 ##                                          ##
 ##           Welcome to FastDocx!!          ##
@@ -52,15 +55,13 @@ class WordCore(object):
 ##                                          ##
 ##############################################
         """)
-        logging.basicConfig(level=logging.INFO,
-                    format='%(levelname)s: %(message)s')  
-                    # format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s')  
         if basepath.endswith("/") == False:
             basepath = basepath+"/"
 
         self.basepath = basepath
     
     def verify(self, config : dict or str, thread_num:int):
+        logging.info("校验中...")
         if type(config) == str and config.startswith("http"):
             # 下载config.json
             config = json.loads(httpx.get(config).content)
@@ -101,7 +102,6 @@ class WordCore(object):
         if os.path.exists(self.readpath + "img/") == False:
             os.makedirs(self.readpath + "img/")
 
-        logging.info("校验中...")
         # 下载img
         msg = [
         # {
