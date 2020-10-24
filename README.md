@@ -9,9 +9,9 @@ FastDocx是一个自动化模块 帮助你快速依据模板生成word文档
 ```py
 from fastdocx import WordCore
 
-basepath = r"./"
+workspace = r"./"
 
-(WordCore(basepath)
+(WordCore(workspace)
 .load("https://v.gonorth.top:444/file/111111111111/config.json")
 .process()
 )
