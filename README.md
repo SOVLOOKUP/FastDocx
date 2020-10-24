@@ -6,7 +6,15 @@ FastDocx是一个自动化模块 帮助你快速依据模板生成word文档
 `pip install fastdocx -i https://pypi.org/simple`
 ## 示例
 
-运行下面这段代码，目录下会自动生成word
+一行代码开启GUI界面
+
+```py
+import fastdocx
+
+fastdocx.ui()
+```
+
+或者运行下面这段代码，目录下会自动生成word
 
 ```py
 from fastdocx import WordCore
@@ -160,7 +168,7 @@ config = {
 
 ## TODO
 
-1. [ ] PyQT GUI集成
+1. [x] PyQT GUI集成
 2. [x] download 模块
 3. [x] 遇到url自动下载图片并插入
 4. [ ] 更好的图片支持（图例等）
