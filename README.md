@@ -23,34 +23,44 @@ workspace = r"./"
 
 ```py
 {
-  # 12位id，模板解析任务的唯一标识
-  "id":"111111111111",
-  "taskname":"测试任务",
-  "author":"GoNorth",
-  "version":"V0.0.1",
-  "description":"这是一个测试任务，一帆风顺🤩",
-  "template":"https://v.gonorth.top:444/file/111111111111/template.docx",
-  # 模板解析的内容
-  "word":[{
-      # 输出word名称
-      "name":"1.docx",
-      # 具体替换内容
-      "content":[{
+    # 任务配置信息
+    # 12位id，模板解析任务的唯一标识
+    "id":"111111111111",
+    # 任务名称
+    "taskname":"测试任务",
+    # 任务作者
+    "author":"GoNorth",
+    # 任务版本
+    "version":"V0.0.1",
+    # 任务描述
+    "description":"这是一个测试任务，一帆风顺🤩",
+    # 模板地址 URL/PATH
+    "template":"https://v.gonorth.top:444/file/111111111111/template.docx",
+    # 任务图标地址
+    "icon":"https://v.gonorth.top:444/file/111111111111/img/2.png",
+    # 模板解析的内容
+    "word":[{
+        # 输出word名称
+        "name":"1.docx",
+        # 具体替换内容
+        "content":[{
+            # 将定位替换模板中{{A}}
             "key" : "A",
+            # 类型 text/img/tab/br
             "type" : "text",
             # 支持填入返回str的函数
             "value" : "我是替换上去的标题"
             },{
             "key" : "B",
             "type" : "img",
-            # [path/stream/url,width,height]
+            # 图片value支持 [path/stream/url,width,height]
             "value" : ["https://v.gonorth.top:444/file/111111111111/img/2.png"]
             },
-          # 其他关键字
-          ]
-      },
-      # 其他生成的word
-  ]
+            # 还可以加入其他关键字
+            ]
+        },
+        # 继续填写其他生成的word内容
+    ]
 }
 ```
 
@@ -94,6 +104,7 @@ config = {
         "version":"V0.0.1",
         "description":"这是一个测试任务，一帆风顺🤩",
         "template":"https://v.gonorth.top:444/file/111111111111/template.docx",
+       "icon":"https://v.gonorth.top:444/file/111111111111/img/2.png",
         "word":[{
             "name":"out.docx",
             "content":[{
@@ -129,6 +140,7 @@ config = {
         "version":"V0.0.1",
         "description":"这是一个测试任务，一帆风顺🤩",
         "template":"https://v.gonorth.top:444/file/111111111111/template.docx",
+       "icon":"https://v.gonorth.top:444/file/111111111111/img/2.png",
         "word":[{
             "name":"out.docx",
             "content":[{

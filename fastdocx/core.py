@@ -5,40 +5,10 @@ from .writer import writedox
 from .download import download
 
 class WordCore(object):
-    """
-    word 模板自动生成
-
-    basepath -- tmp -- {id} -- template.docx
-             |              |
-             |              |- config.json
-             |              |
-             |              |- img -- 1.img
-             |                     |
-             |                     |- 2.img
-             |- out
-
-    BasePath = "D:\Desktop\自动word\workspace"
-    config = {
-        "id":"111111111111",
-        "taskname":"测试任务",
-        "author":"GoNorth",
-        "version":"V0.0.1",
-        "description":"这是一个测试任务，一帆风顺🤩",
-        "template":"https://v.gonorth.top:444/file/111111111111/template.docx",
-        "word":[{
-            "name":"out.docx",
-            "content":[{
-                "key" : "A",
-                "type" : "text",
-                "value" : "我是替换上去的标题"
-                },{
-                "key" : "B",
-                "type" : "img",
-                "value" : ["https://v.gonorth.top:444/file/111111111111/img/2.png"]
-                }
-                ]
-            }
-        ]}
+    """[summary]
+    Args:
+        basepath : 工作区目录
+        log_level : logging.DEBUG/INFO/WARNING
     """
     def __init__(self, basepath : str, log_level=logging.INFO):
         logging.basicConfig(level=log_level,
