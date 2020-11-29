@@ -1,6 +1,3 @@
-docx
-logging
-re
+python-docx
 trio
-httpx[http2]
-tqdm
+httpx
