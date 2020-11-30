@@ -22,7 +22,7 @@ async def run(reqs ,thread_num :int):
             nursery.start_soon(rep_chan, receive_channel.clone(),len(reqs))
 
 async def downloader(receive_channel_,send_channel_):
-    async with receive_channel_, send_channel_, httpx.AsyncClient(http2=True) as client:
+    async with receive_channel_, send_channel_, httpx.AsyncClient() as client:
         async for msg in receive_channel_:
             msg["content"] = await client.send(msg["content"])
             await send_channel_.send(msg)
