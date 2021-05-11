@@ -5,7 +5,7 @@ with open("README.md", "r+", encoding="utf8") as fh:
 
 setuptools.setup(
     name="fastdocx",
-    version="0.1.4",
+    version="0.2.0",
     author="sovlookup",
     author_email="805408477@qq.com",
     description="use template to gen word everywhere",
@@ -15,7 +15,9 @@ setuptools.setup(
     install_requires=[
         "python-docx",
         "trio",
-        "httpx"
+        "httpx",
+        "tqdm",
+        "PyQt5"
     ],
     packages=setuptools.find_packages(),
     classifiers=[
