@@ -5,14 +5,14 @@ with open("README.md", "r+", encoding="utf8") as fh:
 
 setuptools.setup(
     name="fastdocx",
-    version="0.1.3",
+    version="0.1.4",
     author="sovlookup",
     author_email="805408477@qq.com",
     description="use template to gen word everywhere",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/SOVLOOKUP/FastDocx",
-    nstall_requires=[
+    install_requires=[
         "python-docx",
         "trio",
         "httpx"
@@ -23,5 +23,5 @@ setuptools.setup(
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.8',
+    python_requires='>=3.7',
 )

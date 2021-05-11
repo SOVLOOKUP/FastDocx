@@ -15,7 +15,8 @@ def process(doc,somethinglist:list,imgpath :str):
     # 遍历一遍
     for paragraph in doc.paragraphs:
         # 如果碰到锚点
-        if (rer := re.findall(r"{{.*?}}",paragraph.text)) != None:
+        rer = re.findall(r"{{.*?}}",paragraph.text)
+        if rer != None:
             # 根据锚点信息
             for i in rer:
                 # 查找输入字典

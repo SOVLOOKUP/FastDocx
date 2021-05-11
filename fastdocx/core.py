@@ -36,11 +36,13 @@ class WordCore(object):
             # 下载config.json
             config = json.loads(httpx.get(config).content)
 
-        if (id := config.get("id")) == None:
+        id = config.get("id")
+        if id == None:
             logging.error("资源地址不正确或已失效！")
             return False
         
-        if (word := config.get("word")) == None:
+        word = config.get("word")
+        if word == None:
             logging.error("资源无效！")
             return False
         
@@ -56,7 +58,8 @@ class WordCore(object):
             os.makedirs(self.outpath)
 
         if os.path.exists(self.readpath+"template.docx") == False:
-            if (tmplate_url := config.get("template",False)) == False:
+            tmplate_url = config.get("template",False)
+            if tmplate_url == False:
                 logging.error("没有找到工作资源！")
                 return False
             if tmplate_url.strip().startswith("http") == False:
