@@ -172,3 +172,11 @@ config = {
 3. [x] 遇到url自动下载图片并插入
 4. [ ] 更好的图片支持（图例等）
 5. [ ] 表格支持
+
+## 感谢捐助✨
+
+|Name|github|￥|
+|-|-|-|
+|Bai Feng |https://github.com/baifengbai|50|
+
+
