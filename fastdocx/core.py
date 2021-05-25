@@ -106,7 +106,7 @@ class WordCore(object):
         self.word = word
         self.config = config
 
-    def load(self, config : dict, thread_num:int = 1):
+    def load(self, config : dict or str, thread_num:int = 1):
         """[summary]
 
         Args:
