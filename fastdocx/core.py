@@ -18,9 +18,10 @@ class WordCore(object):
 ##############################################
 ##                                          ##
 ##           Welcome to FastDocx!!          ##
+##              Version 0.2.1               ##
 ##                                          ##
 ##        Author      sovlookup             ##
-##        Mail     805408477@qq.com         ##
+##        Mail      gonorth@qq.com          ##
 ##        Github  sovlookup/FastDocx        ##
 ##                                          ##
 ##############################################
