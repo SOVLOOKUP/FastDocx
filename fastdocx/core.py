@@ -18,7 +18,7 @@ class WordCore(object):
 ##############################################
 ##                                          ##
 ##           Welcome to FastDocx!!          ##
-##              Version 0.2.1               ##
+##              Version 0.2.2               ##
 ##                                          ##
 ##        Author      sovlookup             ##
 ##        Mail      gonorth@qq.com          ##
@@ -97,7 +97,8 @@ class WordCore(object):
             elif os.path.exists(self.template):
                 shutil.copyfile(self.template, self.templatepath)
             else:
-                logging.error("template资源地址错误，仅支持本地文件和网址")
+                logging.error("template资源地址错误，仅支持本地文件和网址，请检查文件是否存在")
+                raise RuntimeError('loadError')
 
             # 下载img
             msg = []

@@ -35,7 +35,6 @@ async def req_chan(send_channel, reqs):
             
             await send_channel.send(msg)
 
-# todo 将图片等写入本地
 async def rep_chan(receive_channel, pbarnum):
     with tqdm(pbarnum) as pbar:
         async with receive_channel:

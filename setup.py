@@ -5,7 +5,7 @@ with open("README.md", "r+", encoding="utf8") as fh:
 
 setuptools.setup(
     name="fastdocx",
-    version="0.2.1",
+    version="0.2.2",
     author="sovlookup",
     author_email="gonorth@qq.com",
     description="use template to gen word everywhere",
@@ -22,7 +22,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.7',

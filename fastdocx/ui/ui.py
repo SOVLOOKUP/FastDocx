@@ -14,7 +14,6 @@ from .style import stype
 #     with open(style, 'r') as f:
 #         return f.read()
 
-# todo:获取输出、改造为迭代器提高效率
 class item(QListWidgetItem):
   def __init__(self, name :str, icon: str, id: str, author: str, version: str, config: str, description: str,tmpdir: str, parent = None):
     super(item, self).__init__(parent)

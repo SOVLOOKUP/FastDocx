@@ -50,10 +50,8 @@ def process(doc,somethinglist:list,imgpath :str):
                 # 在末尾添加图片
                 # params:
                 # [img_path,width,height]
-                # todo 碰到http开头的自动下载并插入
                 if PICTURE:
                     paragraph.add_run().add_picture(*ivalue)
-                    # paragraph.runs[-1].add_picture(path)
                 
                 # 在末尾添加表格
                 # params:
