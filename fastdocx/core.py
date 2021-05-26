@@ -1,4 +1,4 @@
-import logging, httpx, os, json, string, random
+import logging, httpx, os, json, string, random, shutil
 from .reader import readox
 from .engine import process
 from .writer import writedox
@@ -31,93 +31,96 @@ class WordCore(object):
 
         self.basepath = basepath
     
-    def verify(self, config : dict or str, thread_num:int):
+    def verify(self, config: dict) -> bool:
         logging.info("校验中...")
-        if type(config) == str and config.startswith("http"):
-            # 下载config.json
-            config = json.loads(httpx.get(config).content)
 
-        id = config.get("id")
-        if id == None:
-            logging.error("资源地址不正确或已失效！")
+        self.config = config
+        self.id :str = config.get("id")
+        self.word :dict = config.get("word")
+        self.template :str = self.config.get("template")
+
+        if self.id == None:
+            logging.error("配置中没有找到id！")
             return False
         
-        word = config.get("word")
-        if word == None:
-            logging.error("资源无效！")
+        if self.word == None:
+            logging.error("配置中没有找到word！")
             return False
         
-        self.id = id 
+        if self.template == None:
+            logging.error("配置中没有找到template！")
+            return False
 
         self.readpath = self.basepath+self.id+"/tmp/"
         self.outpath = self.basepath+self.id+"/out/"
+        self.templatepath = self.readpath+"template.docx"
 
         # 检查项目资源;项目目录，没有就创建
         if os.path.exists(self.readpath) == False:
             os.makedirs(self.readpath)
         if os.path.exists(self.outpath) == False:
             os.makedirs(self.outpath)
-
-        if os.path.exists(self.readpath+"template.docx") == False:
-            tmplate_url = config.get("template",False)
-            if tmplate_url == False:
-                logging.error("没有找到工作资源！")
-                return False
-            if tmplate_url.strip().startswith("http") == False:
-                logging.error("资源地址错误！")
-                return False
-            
-            # 下载到 self.readpath+"template.docx"
-            with httpx.stream("GET", tmplate_url) as response:
-                with open(self.readpath+"template.docx","wb+") as f:
-                    for chunk in response.iter_bytes():
-                        f.write(chunk)
-
         if os.path.exists(self.readpath + "img/") == False:
             os.makedirs(self.readpath + "img/")
 
-        # 下载img
-        msg = [
-        # {
-        #     "content":["GET","https://baidu.com"],
-        #     "todo": print("sssssssssssssssssssssssssss")
-        # },
-        ]
-        for part in word:
-            for section in part.get("content"):
-                value = section.get("value")
-                if type(value) == list:
-                    if (type(value[0]) == str) and (value[0].startswith("http")):
-                        # 下载并保存到readpath/img/ 返回名字
-                        name = ''.join(random.sample(string.ascii_letters + string.digits, 12)) + ".png"
-                        msg.append({
-                            "content":["GET",value[0]],
-                            "path": self.readpath + "img/" + name
-                        })
+        return True
 
-                        value[0] = self.readpath + "img/"+name
-        
-        logging.info(f"同步资源...共{len(msg)}个项目")
-        download(msg, thread_num)
-        
-        # # 保存config.json
-        # with open(self.readpath+"config.json","w+") as f:
-        #     f.write(json.dumps(config))
-
-        self.word = word
-        self.config = config
-
-    def load(self, config : dict or str, thread_num:int = 1):
+    def load(self, config , thread_num:int = 1):
         """[summary]
 
         Args:
-            config : config
+            config : path | url | dict
             thread_num (int, optional): [下载线程数]. Defaults to 1.
         """
+        # url
+        if type(config) == str and config.startswith("http"):
+            _config = json.loads(httpx.get(config).content)
+        # dict
+        elif type(config) == dict:
+            _config = config
+        # path
+        elif type(config) == str:
+            with open(config,'r') as f:
+                _config = json.load(f)
+        else:
+            logging.error("config格式错误，支持url，filepath，dict")
+        
+        if self.verify(config = _config):
+            logging.info("资源加载中...")
+            # 下载word模版
+            if self.template.strip().startswith("http"):
+                with httpx.stream("GET", self.template) as response:
+                    with open(self.templatepath,"wb+") as f:
+                        for chunk in response.iter_bytes():
+                            f.write(chunk)
+            # 本地word模版
+            elif os.path.exists(self.template):
+                shutil.copyfile(self.template, self.templatepath)
+            else:
+                logging.error("template资源地址错误，仅支持本地文件和网址")
 
-        if self.verify(config=config,thread_num=thread_num):
-            logging.warning("加载失败！！！")
-            return
+            # 下载img
+            msg = []
+            for part in self.word:
+                for section in part.get("content"):
+                    value = section.get("value")
+                    if type(value) == list:
+                        if (type(value[0]) == str) and (value[0].startswith("http")):
+                            # 下载并保存到readpath/img/ 返回名字
+                            name = ''.join(random.sample(string.ascii_letters + string.digits, 12)) + ".png"
+                            msg.append({
+                                "content":["GET",value[0]],
+                                "path": self.readpath + "img/" + name
+                            })
+
+                            value[0] = self.readpath + "img/"+name
+            
+            logging.info(f"同步资源...共{len(msg)}个项目")
+            download(msg, thread_num)
+
+        else:
+            logging.error("加载失败！！！")
+            raise RuntimeError('verifyError')
 
         self.taskname = self.config.get("taskname","")
         self.author = self.config.get("author","")
@@ -134,7 +137,7 @@ class WordCore(object):
         """)
 
         # 加载模板
-        self.template = readox(self.readpath+"template.docx")
+        self.template = readox(self.templatepath)
 
         return self
 

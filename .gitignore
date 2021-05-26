@@ -1,4 +1,7 @@
 
 .vscode
-
+testworkspace
 __pycache__
+fastdocx.egg-info
+build
+dist
